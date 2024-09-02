@@ -59,3 +59,51 @@ curl --location 'http://localhost:3000/erp/attendance/nocheckin' \
 4.Get Employee Details
 curl --location 'http://localhost:3000/erp/employees?employee_id=Emp1002'
 
+Complex Queries:
+1.List employees by department:
+
+[
+  {
+    $match: {
+      department_id: "Dept1001"
+    }
+  },
+  {
+    $project: {
+      name: 1,
+      designation: 1,
+      _id: 0
+    }
+  }
+]
+
+2.Daily attendance summary:
+
+[
+  {
+    $match: {
+      date: {
+        $eq: ISODate("2024-09-02T00:00:00.000Z")
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$status",
+      count: {
+        $sum: 1
+      },
+      employee_ids: {
+        $push: "$employee_id"
+      }
+    }
+  },
+  {
+    $project: {
+      _id: 0,
+      status: "$_id",
+      count: 1,
+      employee_ids: 1
+    }
+  }
+]

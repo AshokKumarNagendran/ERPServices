@@ -60,6 +60,7 @@ curl --location 'http://localhost:3000/erp/attendance/nocheckin' \
 curl --location 'http://localhost:3000/erp/employees?employee_id=Emp1002'
 
 Complex Queries:
+
 1.List employees by department:
 
 [
